@@ -1,0 +1,110 @@
+Usage: json_to_csv	[-u url] [-o output_csv_file] [-i input_json_file]
+					[-h help] [-v verbosity]
+					[-u] [-o] [-i] [-h] [-v]
+
+
+
+This program converts json into csv. It can process a local json formatted file, or access a remote url using the perl curl component.
+
+
+
+Structure
+
+It is based upon a custom subroutine called json_to_csv(), which is present within the json_to_csv.pl perl file.
+The subroutine is modular and may be removed from the file to be used separately, or run from within the perl file using getopts input switches.
+
+
+
+Input switches for json_to_csv.pl
+
+-u 		Remote access url.
+		When this option is set, the program will read json content from this url via the curl component.
+
+		default url when no option set: http://api.ptagis.org:80/interrogation sites/configurations
+
+
+-o 		Output csv filename.
+		Then this option is set, the program will write the output csv formatted data to the specified filename.
+
+		default filename when no option set: json_to_csv_output.csv 
+
+
+-i		Input local json file.
+		Then this option is set, the program will read a local file from the input path specified.
+
+		default: not set
+
+
+-v		Verbosity level.
+		When set to 1, this will describe the actions being performed.
+		When set to 2, this will print the passed variables between getopts and subroutine.
+
+		default: 0
+
+
+-h		Help.
+		Display instructions for the program.
+	
+
+
+Input switch examples
+
+
+This example will connect to a json content url (http://api.ptagis.org:80/mrrsites)
+and write the output in csv to a local file (test_output.csv).
+
+json_to_csv.pl -o test_output.csv -u http://api.ptagis.org:80/mrrsites -v1
+
+
+This example will process a json content local file (ptagis_interrogation sites_sample.json)
+and write the output in csv to a local file (test_output_local.csv).
+
+json_to_csv.pl -o test_output_local.csv -i ptagis_interrogation sites_sample.json -v1
+
+
+This example will connect to the default url (http://api.ptagis.org:80/interrogation sites/configurations)
+and write it to the default output file (json_to_csv_output.csv).
+
+json_to_csv.pl -v1
+
+
+
+Input variables for json_to_csv() subroutine
+
+json_to_csv($url,$file_output_csv,$file_input_json,$verbosity)
+
+
+
+Output format
+
+The first line of the out csv file contains json keys as column headers.
+Subsequent lines will contain the values as content of each column.
+Column order is sorted alphabetical ascending by the keys.
+
+
+
+Output csv example
+
+"antennaGroupName","antennaID","configurationSequence","endDate","siteCode","siteName","startDate",
+"Upstream Eightmile Ck","D1","100","","158","Fifteenmile Ck at Eightmile Ck","2011-11-29T00:00:00",
+"Middle Eightmile Ck","D2","100","","158","Fifteenmile Ck at Eightmile Ck","2011-11-29T00:00:00",
+
+
+
+Installation of perl components
+
+
+First, open the perl interface from the bash shell.
+
+> perl -MCPAN -e shell
+
+
+Next, enter the following commands to install each required component.
+
+> install WWW::Curl::Simple
+> install JSON
+> install JSON::XS
+
+
+
+
